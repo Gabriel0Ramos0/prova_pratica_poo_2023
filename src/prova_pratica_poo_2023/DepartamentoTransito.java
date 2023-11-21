@@ -23,7 +23,7 @@ public class DepartamentoTransito {
         acidentes.add(acidente);
     }
 
-    public void listarAcidentes(List<Acidente> acidentes) {
+    /*public void listarAcidentes(List<Acidente> acidentes) {
     	for (Acidente acidente : acidentes) {
             for (Veículo veiculo : acidente.getVeículosEnvolvidos()) {
                 for (Pessoa pessoa : veiculo.getPessoas()) {
@@ -34,7 +34,7 @@ public class DepartamentoTransito {
                 }
             }
         }
-    }
+    }*/
 
     public void listaQuantAcidporGrau() {
     	List<String> periculosidades = new ArrayList<>();

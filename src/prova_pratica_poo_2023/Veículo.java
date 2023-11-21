@@ -7,6 +7,12 @@ public class Veículo {
 	private int ano;
 	private String tipo;
 	List<Pessoa> pessoas;
+	
+	public Veículo() {
+		this.setAno(0);
+		this.setTipo("");
+		this.setPessoas(pessoas);
+	}
 
     public Veículo(int ano,String tipo, List<Pessoa> pessoas) {
         this.ano = ano;
@@ -14,8 +20,8 @@ public class Veículo {
         this.pessoas = pessoas;
     }
 
-    @Override
-    public String toString() {
+	@Override
+	public String toString() {
         StringBuilder veiculoString = new StringBuilder(getTipo() + ", ano: " + getAno() + "\nCondutor: ");
 
         for (int i = 0; i < pessoas.size(); i++) {
@@ -28,7 +34,6 @@ public class Veículo {
 
         return veiculoString.toString();
     }
-
 
 	public int getAno() {
 		return ano;
