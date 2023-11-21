@@ -20,7 +20,7 @@ public class Acidente {
 
 	@Override
 	public String toString() {
-        StringBuilder acidenteString = new StringBuilder("\nAcidente na rodovia: " + rodovia +
+        StringBuilder acidenteString = new StringBuilder("\nAcidente na rodovia" + rodovia +
                 "\nVitimas Fatais: " + getVitimasFatais() + ", Feridos: " + getFeridos() + ", Mes: " + getMes() + "\n");
 
         if (getVeículosEnvolvidos() != null && !getVeículosEnvolvidos().isEmpty()) {

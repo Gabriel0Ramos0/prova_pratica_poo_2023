@@ -5,10 +5,18 @@ public class Pessoa {
 	private String nome;
 	private int idade;
 	private String sexo;
-	private String condutor;
-	private String embriagado;
+	private boolean condutor;
+	private boolean embriagado;
 	
-	public Pessoa(String nome, int idade, String sexo, String condutor, String embriagado) {
+	public Pessoa() {
+		this.nome = "";
+		this.idade = 0;
+		this.sexo = "";
+		this.condutor = false;
+		this.embriagado = false;
+	}
+	
+	public Pessoa(String nome, int idade, String sexo, boolean condutor, boolean embriagado) {
 		this.nome = nome;
 		this.idade = idade;
 		this.sexo = sexo;
@@ -16,12 +24,16 @@ public class Pessoa {
 		this.embriagado = embriagado;
 	}
 
-
 	@Override
     public String toString() {
-        StringBuilder pessoaString = new StringBuilder ("Nome: " + getNome() + ", Idade: " + getIdade() + ", Sexo: " + getSexo()).append("\n");
-        if (getCondutor().equalsIgnoreCase("Sim")) {
-            pessoaString.append("Estava Embriagado: ").append(getEmbriagado()).append("\n");
+        StringBuilder pessoaString = new StringBuilder("Nome: " + getNome() + ", Idade: " + getIdade() + ", Sexo: " + getSexo()).append("\n");
+        if (this.isCondutor() == true) {
+        	if(this.isEmbriagado() == true) {
+            	pessoaString.append("Estava Embriagado\n");
+        	} else {
+        		pessoaString.append("Não estava embriagado\n");
+        	}
+        	
         }
         return pessoaString.toString();
     }
@@ -30,26 +42,21 @@ public class Pessoa {
 		return nome;
 	}
 
-
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-
 
 	public int getIdade() {
 		return idade;
 	}
 
-
 	public void setIdade(int idade) {
 		this.idade = idade;
 	}
 
-
 	public String getSexo() {
 		return sexo;
 	}
-
 
 	public boolean setSexo(String sexo) {
 	    if ("Masculino".equals(sexo) || "Feminino".equals(sexo)) {
@@ -59,26 +66,26 @@ public class Pessoa {
 	        return false;
 	    }
 	}
+	
 
-	public String getCondutor() {
+	public boolean isCondutor() {
 		return condutor;
 	}
+	
 
-	public void setCondutor(String condutor) {
+	public void setCondutor(boolean condutor) {
 		this.condutor = condutor;
 	}
+	
 
-	public String getEmbriagado() {
+	public boolean isEmbriagado() {
 		return embriagado;
 	}
+	
 
-	public Boolean setEmbriagado(String embriagado) {
-        if ("Sim".equals(embriagado)) {
-            this.embriagado = embriagado;
-            return true;
-        } else {
-            this.embriagado = embriagado;
-            return false;
-        }
-    }
+	public void setEmbriagado(boolean embriagado) {
+		this.embriagado = embriagado;
+	}
+	
 }
+

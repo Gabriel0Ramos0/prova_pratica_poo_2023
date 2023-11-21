@@ -5,6 +5,11 @@ public class Rodovia {
 	private String sigla;
 	private String grau;
 
+	public Rodovia() {
+		this.sigla = "";
+		this.grau = "";
+	}
+	
 	public Rodovia(String sigla, String grau) {
 		this.sigla = sigla;
 		this.grau = grau;
@@ -12,7 +17,7 @@ public class Rodovia {
 
 	@Override
 	public String toString() {
-		return getSigla() + ", grau: " + getGrau();
+		return ": " + getSigla() + ", grau: " + getGrau();
 	}
 
 	public String getSigla() {
