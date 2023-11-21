@@ -84,7 +84,6 @@ class DepartamentoTransitoTest {
 	
 	@Test
 	void listaAcidente() {
-		
+		System.out.println("aaaaa")	;
 	}
-
 }
