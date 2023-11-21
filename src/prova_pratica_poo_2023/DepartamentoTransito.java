@@ -141,7 +141,7 @@ public class DepartamentoTransito {
                 }
             }
         }
-        System.out.println("\nRodovias que Registraram Acidentes no Carnaval " + rodoviasNoCarnaval);
+        System.out.println("\nRodovias que Registraram Acidentes no Carnaval: " + rodoviasNoCarnaval);
         return rodoviasNoCarnaval;
     }
 }

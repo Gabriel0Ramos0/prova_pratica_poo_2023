@@ -12,7 +12,7 @@ public class Rodovia {
 
 	@Override
 	public String toString() {
-		return ": " + getSigla() + ", grau: " + getGrau();
+		return getSigla() + ", grau: " + getGrau();
 	}
 
 	public String getSigla() {
