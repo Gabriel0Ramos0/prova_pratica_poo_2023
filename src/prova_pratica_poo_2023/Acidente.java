@@ -9,6 +9,14 @@ public class Acidente {
     int feridos;
     int mes;
     List<Veículo> VeículosEnvolvidos;
+    
+    public Acidente() {
+		this.rodovia = null;
+		this.vitimasFatais = 0;
+		this.feridos = 0;
+		this.mes = 0;
+		this.VeículosEnvolvidos = null;
+	}
       
 	public Acidente(Rodovia rodovia, int vitimasFatais, int feridos, int mes, List<Veículo> VeículosEnvolvidos) {
 		this.rodovia = rodovia;

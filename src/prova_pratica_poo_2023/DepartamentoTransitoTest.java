@@ -45,7 +45,7 @@ class DepartamentoTransitoTest {
         acidentes.add(departamento.acidentes.get(0));
         
         // Caso 2: Caminhao e Bicicleta        
-        pessoas3.add(new Pessoa("Marcio", 50, "Masculino", true, true));
+        pessoas3.add(new Pessoa("Marcio", 50, "Masculino", true, false));
         pessoas3.add(new Pessoa("Mariana", 15, "Feminino", false, false));
 
         pessoas4.add(new Pessoa("Pedro", 35, "Masculino", true, false));
@@ -93,7 +93,6 @@ class DepartamentoTransitoTest {
 		assertEquals("Maria", veiculoConstrutorPreenchido.getPessoas().get(1).getNome());
 	}
 	
-
 	//TESTANDO O CONSTRUTOR DE VEÍCULO SEM VARIÁVEIS
 	@Test
 	void construtorVeículoVazioTest() {
@@ -102,6 +101,8 @@ class DepartamentoTransitoTest {
 		assertEquals("", veiculoConstrutorVazio.getTipo());
 		assertEquals(null, veiculoConstrutorVazio.getPessoas());
 	}
+
+	
 
 	
 	//TESTANDO O CONSTRUTOR DE RODOVIA PREENCHIDO
@@ -120,6 +121,8 @@ class DepartamentoTransitoTest {
 			assertEquals("", rodoviaConstrutorVazio.getGrau());
 		}
 
+	
+	
 	//TESTANDO O CONSTRUTOR DE PESSOA PREENCHIDO
 	@Test
 	void construtorPessoaPreenchidoTest() {
@@ -141,8 +144,29 @@ class DepartamentoTransitoTest {
 		assertEquals(false, pessoaConstrutorVazio.isCondutor());
 		assertEquals(false, pessoaConstrutorVazio.isEmbriagado());
 	}
-
-
-
-
+	
+	
+	
+	//TESTANDO O CONSTRUTOR DE ACIDENTE PREENCHIDO
+	@Test
+	void construtorRodoviaPreenchido() {
+		Rodovia rodovia = new Rodovia("SC108", "Alta");
+		Acidente acidenteConstrutorPreenchido = new Acidente(rodovia, 2, 4, 10, veiculosCaso1);
+		assertEquals("SC108", acidenteConstrutorPreenchido.getRodovia().getSigla());
+		assertEquals(2, acidenteConstrutorPreenchido.getVitimasFatais());
+		assertEquals(4, acidenteConstrutorPreenchido.getFeridos());
+		assertEquals(10, acidenteConstrutorPreenchido.getMes());
+		assertEquals(veiculosCaso1, acidenteConstrutorPreenchido.getVeículosEnvolvidos());
+	}
+	
+	//TESTANDO O CONSTRUTOR DE ACIDENTE VAZIO
+	@Test
+	void construtorRodoviaVazio() {
+		Acidente acidenteConstrutorPreenchido = new Acidente();
+		assertEquals(null, acidenteConstrutorPreenchido.getRodovia());
+		assertEquals(0, acidenteConstrutorPreenchido.getVitimasFatais());
+		assertEquals(0, acidenteConstrutorPreenchido.getFeridos());
+		assertEquals(0, acidenteConstrutorPreenchido.getMes());
+		assertEquals(null, acidenteConstrutorPreenchido.getVeículosEnvolvidos());
+	}
 }
