@@ -14,10 +14,21 @@ public class Veículo {
         this.pessoas = pessoas;
     }
 
-	@Override
-	public String toString() {
-		return getTipo() + " ano: " + getAno() + "]\nCondutor: " + pessoas;
-	}
+    @Override
+    public String toString() {
+        StringBuilder veiculoString = new StringBuilder(getTipo() + ", ano: " + getAno() + "\nCondutor: ");
+
+        for (int i = 0; i < pessoas.size(); i++) {
+            veiculoString.append(pessoas.get(i).toString());
+
+            if (i < pessoas.size() - 1) {
+                veiculoString.append("Passageiro: ");
+            }
+        }
+
+        return veiculoString.toString();
+    }
+
 
 	public int getAno() {
 		return ano;

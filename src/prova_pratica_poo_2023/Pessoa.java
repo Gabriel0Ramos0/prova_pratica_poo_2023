@@ -19,7 +19,7 @@ public class Pessoa {
 
 	@Override
     public String toString() {
-        StringBuilder pessoaString = new StringBuilder("Nome: " + getNome() + ", Idade: " + getIdade() + ", Sexo: " + getSexo()).append("\n");
+        StringBuilder pessoaString = new StringBuilder ("Nome: " + getNome() + ", Idade: " + getIdade() + ", Sexo: " + getSexo()).append("\n");
         if (getCondutor().equalsIgnoreCase("Sim")) {
             pessoaString.append("Estava Embriagado: ").append(getEmbriagado()).append("\n");
         }
