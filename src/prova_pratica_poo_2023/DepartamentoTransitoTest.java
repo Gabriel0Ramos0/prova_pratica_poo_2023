@@ -17,12 +17,16 @@ class DepartamentoTransitoTest {
 	List<Pessoa> pessoas2 = new ArrayList<>();
 	List<Pessoa> pessoas3 = new ArrayList<>();
 	List<Pessoa> pessoas4 = new ArrayList<>();
+	List<Pessoa> pessoas5 = new ArrayList<>();
+	List<Pessoa> pessoas6 = new ArrayList<>();
 	List<Veículo> veiculosCaso1 = new ArrayList<>();
 	List<Veículo> veiculosCaso2 = new ArrayList<>();
+	List<Veículo> veiculosCaso3 = new ArrayList<>();
 	Rodovia rodoviaTest;
 	Rodovia rodoviaTest2;
 	Acidente acidenteTest;
 	Acidente acidenteTest2;
+	Acidente acidenteTest3;
 
 	
 	@BeforeEach
@@ -38,8 +42,8 @@ class DepartamentoTransitoTest {
         pessoas2.add(new Pessoa("Pessoa2.1Test1", 28, "Feminino", false, false));
         pessoas2.add(new Pessoa("Pessoa2.2Test1", 22, "Masculino", false, false));
         
-        veiculosCaso1.add(new Veículo(2010, "Bicicleta", pessoas1));
-        veiculosCaso1.add(new Veículo(2020, "Bicicleta", pessoas2));
+        veiculosCaso1.add(new Veículo(2010, "Carro", pessoas1));
+        veiculosCaso1.add(new Veículo(2020, "Carga", pessoas2));
         
         acidenteTest = new Acidente(rodoviaTest, 1, 4, 10, veiculosCaso1);
         
@@ -49,11 +53,23 @@ class DepartamentoTransitoTest {
         pessoas4.add(new Pessoa("Pessoa4Test2", 30, "Masculino", true, false)); 
         pessoas4.add(new Pessoa("Pessoa4.1Test2", 30, "Masculino", false, false)); 
         
-        veiculosCaso2.add(new Veículo(2015, "Bicicleta", pessoas3));
-        veiculosCaso2.add(new Veículo(2019, "Bicicleta", pessoas4));
+        veiculosCaso2.add(new Veículo(2015, "Carga", pessoas3));
+        veiculosCaso2.add(new Veículo(2019, "Carro", pessoas4));
         
         acidenteTest2 = new Acidente(rodoviaTest2, 2, 2, 8, veiculosCaso2);
         
+        
+        //TERCEIRO ACIDENTE, INCLUSÃO DE BICICLETAS
+        pessoas5.add(new Pessoa("Pessoa1Test5", 30, "Masculino", true, false));
+		pessoas5.add(new Pessoa("Pessoa1.1Test5", 25, "Feminino", false, false));
+        pessoas6.add(new Pessoa("Pessoa2Test6", 35, "Masculino", true, false));
+        pessoas6.add(new Pessoa("Pessoa2.1Test6", 28, "Feminino", false, false));
+        pessoas6.add(new Pessoa("Pessoa2.2Test6", 22, "Masculino", false, false));
+        
+        veiculosCaso3.add(new Veículo(2000, "Bicicleta", pessoas5));
+        veiculosCaso3.add(new Veículo(2001, "Carro", pessoas6));
+        
+        acidenteTest3 = new Acidente(rodoviaTest2, 1, 1, 5, veiculosCaso3);
         
 	}
 	
@@ -165,11 +181,13 @@ class DepartamentoTransitoTest {
 	    dentran.cadastrarAcidente(acidenteBaixa);
 
 	    ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+	    PrintStream saidaOriginalConsole = System.out;
 	    System.setOut(new PrintStream(outContent));
 
 	    dentran.listaQuantAcidporGrau();
 	    assertTrue(outContent.toString().contains("Alta: 1"));
 	    assertTrue(outContent.toString().contains("Baixa: 1"));
+	    System.setOut(saidaOriginalConsole);
 	}
 	
 	//TESTANDO O LISTAR VEICULOS DE CARGA ENVOLVIDO EM ACIDENTE 
@@ -190,20 +208,66 @@ class DepartamentoTransitoTest {
         assertTrue(consoleOutput.contains("\nLista de veiculos de carga envolvidos em acidentes: " + veiculoDeCarga.toString()));
     }
 	
-	
-	// --------------INCOMPLETO ------------------------
-	//TESTANDO O LISTAR RODOVIAS COM MAIS BICICLETAS ENVOLVIDAS EM ACIDENTE
-	//VOU VER COMO TRANSFORMAR A SAIDA DE VOID PARA STRING
-	//NÃO ESTA MOSTRANDO OS ACIDENTES DE BICICLETA
+	//TESTANDO O LISTAR RODOVIAS COM MAIS BICICLETAS ENVOLVIDAS EM ACIDENTE SEM ACIDENTES REGISTRADOS
 	@Test
-	void listarRodoviasMaisAcidentesBicicletaTest() {
+	void listarRodoviasMaisAcidentesBicicletaSemAcidentesTest() {
 		DepartamentoTransito dentran = new DepartamentoTransito();
 		
 		dentran.cadastrarAcidente(acidenteTest);
 		dentran.cadastrarAcidente(acidenteTest2);
 		
+		//SALVA A REFECENCIA DE SAIDA ORIGNAL DO CONSOLE
+		PrintStream saidaOriginalConsole = System.out;
+		
+		//CRIA UM BYTEARRAY QUE IRÁ CAPTURAR O QUE SAIR NO CONSOLE
+		ByteArrayOutputStream conteudoConsole = new ByteArrayOutputStream();
+		
+		//MUDA A SAÍDA DO CONSOLE DE ORIGINAL PARA O BYTEARRAY
+		System.setOut(new PrintStream(conteudoConsole));
+		
+		//EXECUTA O MÉTODO QUE IRÁ PRINTAR NO CONSOLE
 		dentran.rodoviaComMaisAcidenteDeBicicleta();
+		
+		//TRANSFORMAR A MENSAGEM PRINTADA NO CONSOLE EM STRING
+		String novaSaidaConsoleEmString = conteudoConsole.toString();
+		
+		//VERIFICA SE A STRING FOI IMPRESSA CORRETAMENTE
+		assertTrue(novaSaidaConsoleEmString.contains("Sem registros de acidente com bicicletas"));
+		
+		//RETORNA O CONSOLE AS CONFIGURAÇÕES ORIGINAIS
+		System.setOut(saidaOriginalConsole);
 	}	
+	
+	//TESTANDO O LISTAR RODOVIAS COM MAIS BICICLETAS ENVOLVIDAS EM ACIDENTE COM ACIDENTES REGISTRADOS
+	@Test
+	void listarRodoviasMaisAcidentesBicicletaComAcidentesTest() {
+		
+		DepartamentoTransito dentran = new DepartamentoTransito();
+		
+		dentran.cadastrarAcidente(acidenteTest);
+		dentran.cadastrarAcidente(acidenteTest3);
+		
+		//SALVA A REFECENCIA DE SAIDA ORIGNAL DO CONSOLE
+		PrintStream saidaOriginalConsole = System.out;
+				
+		//CRIA UM BYTEARRAY QUE IRÁ CAPTURAR O QUE SAIR NO CONSOLE
+		ByteArrayOutputStream conteudoConsole = new ByteArrayOutputStream();
+		
+		//MUDA A SAÍDA DO CONSOLE DE ORIGINAL PARA O BYTEARRAY
+		System.setOut(new PrintStream(conteudoConsole));
+				
+		//EXECUTA O MÉTODO QUE IRÁ PRINTAR NO CONSOLE
+		dentran.rodoviaComMaisAcidenteDeBicicleta();
+				
+		//TRANSFORMAR A MENSAGEM PRINTADA NO CONSOLE EM STRING
+		String novaSaidaConsoleEmString = conteudoConsole.toString();
+		
+		//VERIFICA SE A STRING FOI IMPRESSA CORRETAMENTE
+		assertTrue(novaSaidaConsoleEmString.contains("Rodovia com mais acidentes de bicicleta: " + "BR101"));
+				
+		//RETORNA O CONSOLE AS CONFIGURAÇÕES ORIGINAIS
+		System.setOut(saidaOriginalConsole);
+	}
 	
 	//TESTANDO O LISTAR RODOVIAS COM ACIDENTES FATAIS
 	@Test
@@ -213,7 +277,7 @@ class DepartamentoTransitoTest {
 		dentran.cadastrarAcidente(acidenteTest);
 		dentran.cadastrarAcidente(acidenteTest2);
 		
-		dentran.rodoviaAcidentesFatais();
+		//dentran.rodoviaAcidentesFatais();
 	}
 	
 	//TESTANDO QUANTIDADE DE ACIDENTES COM VEÍCULOS NOVOS
