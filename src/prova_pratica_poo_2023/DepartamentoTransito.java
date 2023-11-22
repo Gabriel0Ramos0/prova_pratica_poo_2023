@@ -88,29 +88,35 @@ public class DepartamentoTransito {
     }
     
     public void rodoviaComMaisAcidenteDeBicicleta() {
-        Rodovia rodoviaComMaisAcidentes = null;
-        int maxAcidentesBicicleta = 0;
-        for (Rodovia rodovia : rodovias) {
-            int countAcidentesBicicleta = 0;
-            for (Acidente acidente : acidentes) {
-                if (rodovia.equals(acidente.getRodovia())) {
-                    for (Veículo veiculo : acidente.getVeículosEnvolvidos()) {
-                        if ("Bicicleta".equalsIgnoreCase(veiculo.getTipo())) {
-                            countAcidentesBicicleta++;
-                        }
-                    }
-                }
-            }
-            if (countAcidentesBicicleta > maxAcidentesBicicleta) {
-                maxAcidentesBicicleta = countAcidentesBicicleta;
-                rodoviaComMaisAcidentes = rodovia;
-            }
-        }
-        if (rodoviaComMaisAcidentes != null) {
-            System.out.println("Rodovia com Mais Acidentes com Bicicletas" + rodoviaComMaisAcidentes.toString());
-        } else {
-            System.out.println("Não houve acidentes com bicicletas registrados.");
-        }
+        
+    	String rodMaisAcidentes = "";
+    	int maxAcidentes = 0;
+    	int contadorAcidentes = 0;
+    	
+    	for(Acidente acidente : acidentes) {
+    		for(int i = 0; i < acidente.getVeículosEnvolvidos().size(); i++) {
+    			String tipoVeiculo = acidente.getVeículosEnvolvidos().get(i).getTipo();
+   			
+    			if(tipoVeiculo.equalsIgnoreCase("Bicicleta")) {
+    				contadorAcidentes += 1;
+    			}
+    		}
+    		
+    		if(contadorAcidentes > maxAcidentes) {
+    			rodMaisAcidentes = acidente.getRodovia().getSigla();
+    			maxAcidentes = contadorAcidentes;   		  			
+    		} else if(contadorAcidentes == maxAcidentes && maxAcidentes != 0){
+    			rodMaisAcidentes += " - " + acidente.getRodovia().getSigla();
+    		}
+    		
+    		contadorAcidentes = 0;
+    	}
+
+    	if(maxAcidentes > 0) {
+    		System.out.println("Rodovia com mais acidentes de bicicleta: " + rodMaisAcidentes);
+    	} else {
+    		System.out.println("Sem registros de acidente com bicicletas");
+    	}
     }
     
     public void rodoviaAcidentesFatais() {
