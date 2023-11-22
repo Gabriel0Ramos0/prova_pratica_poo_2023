@@ -17,23 +17,42 @@ public class DepartamentoTransito {
         Rodovia rodovia = new Rodovia(sigla, grau);
         rodovias.add(rodovia);
     }
+    
+    public void cadastrarRodovia(Rodovia rodovia) {
+    	rodovias.add(rodovia);
+    }
 
+    public void cadastrarAcidente(Acidente acidente) {
+        acidentes.add(acidente);
+    }
+    
     public void cadastrarAcidente(Rodovia rodovia, int vitimasFatais, int feridos, int mes, List<Veículo> VeículosEnvolvidos) {
         Acidente acidente = new Acidente(rodovia, vitimasFatais, feridos, mes, VeículosEnvolvidos);
         acidentes.add(acidente);
     }
 
-    public void listarAcidentes(List<Acidente> acidentes) {
+    public void listarAcidentes() {
+    	
+    	String acidentesTexto = "";
+    	boolean temCondutorEmbriagado = false;
+    	
     	for (Acidente acidente : acidentes) {
             for (Veículo veiculo : acidente.getVeículosEnvolvidos()) {
                 for (Pessoa pessoa : veiculo.getPessoas()) {
                     if (pessoa.isEmbriagado() == true) {
                         System.out.println("Acidente com condutor embriagado: " + acidente.toString());
+                        temCondutorEmbriagado = true;
+                        
                         break;
                     }
                 }
             }
         }
+    	
+    	if(temCondutorEmbriagado == false) {
+    		acidentesTexto = "Não há acidentes com condutor embreagado";
+    	}
+    	 System.out.println(acidentesTexto);
     }
 
     public void listaQuantAcidporGrau() {
