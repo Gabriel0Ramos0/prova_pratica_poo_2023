@@ -1,7 +1,10 @@
 package prova_pratica_poo_2023;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,7 +55,6 @@ class DepartamentoTransitoTest {
         acidenteTest2 = new Acidente(rodoviaTest2, 2, 2, 8, veiculosCaso2);
         
         
-        
 	}
 	
 	//TESTANDO O CADASTRO DE RODOVIAS PELA CLASSE DEPARTAMENTOTRANSITO INSTANCIANDO A RODOVIA
@@ -99,50 +101,94 @@ class DepartamentoTransitoTest {
 
 	//TESTANDO LISTAGEM DE ACIDENTES SEM CONDUTOR EMBRIAGADO
 	@Test
-	void listarAcidentesSemCondutorEmbriagadoTest() {
-		DepartamentoTransito dentran = new DepartamentoTransito();
-		
-		dentran.cadastrarAcidente(acidenteTest);
-		assertEquals("Não há acidentes com condutor embreagado", dentran.listarAcidentes());	
-	}
+    void listarAcidentesSemCondutorEmbriagadoTest() {
+    	DepartamentoTransito dentran = new DepartamentoTransito();
+        Rodovia rodovia = new Rodovia("SC108", "Alta");
+        
+        List<Pessoa> pessoas = new ArrayList<>();
+        List<Veículo> veiculos = new ArrayList<>();
+
+        pessoas.add(new Pessoa("João", 25, "Masculino", true, false));
+        veiculos.add(new Veículo(2022, "Carro", pessoas));
+        Acidente acidente = new Acidente(rodovia, 1, 2, 11, veiculos);
+        dentran.cadastrarAcidente(acidente);
+        String resultado = dentran.listarAcidentes();
+        assertEquals("Não há acidentes com condutor embreagado", resultado);
+    }
 	
-	//-----------------INCOMPLETO-----------------------
-	//VOU VER COMO TRANSFORMAR A SAIDA DE VOID PARA STRING
 	//TESTANDO LISTAGEM DE ACIDENTES COM CONDUTOR EMBRIAGADO
 	@Test
 	void listarAcidentesComCondutorEmbriagadoTest() {
 		DepartamentoTransito dentran = new DepartamentoTransito();
-			
-		dentran.cadastrarAcidente(acidenteTest);
-		dentran.cadastrarAcidente(acidenteTest2);
-		dentran.listarAcidentes();		
+	    Rodovia rodovia1 = new Rodovia("SC108", "Alta");
+
+	    List<Pessoa> pessoas1 = new ArrayList<>();
+
+	    pessoas1.add(new Pessoa("Marcos", 30, "Masculino", true, true));
+	    pessoas1.add(new Pessoa("Laisa", 25, "Feminino", false, false));
+
+	    List<Veículo> veiculosCaso1 = new ArrayList<>();
+	    veiculosCaso1.add(new Veículo(2010, "Carro", pessoas1));
+	    Acidente acidente1 = new Acidente(rodovia1, 1, 4, 10, veiculosCaso1);
+	    dentran.cadastrarAcidente(acidente1);
+	    String resultado = dentran.listarAcidentes();
+	    assertTrue(resultado.contains("Acidente com condutor embriagado"));
+	    assertTrue(resultado.contains(acidente1.toString()));
 	}
 	
-	//-----------------INCOMPLETO-----------------------
-	//VOU VER COMO TRANSFORMAR A SAIDA DE VOID PARA STRING
 	//TESTANDO O LISTAR QUANTIDADE DE ACIDENTES POR GRAU DE PERICULOSIDADE
 	@Test
-	void listarQntAcidentesGrauPericulosidadeTest(){
+	void listarQntAcidentesGrauPericulosidadeTest() {
 		DepartamentoTransito dentran = new DepartamentoTransito();
-		
-		dentran.cadastrarAcidente(acidenteTest);
-		dentran.cadastrarAcidente(acidenteTest2);
-		
-		//dentran.listaQuantAcidporGrau();
+	    Rodovia rodoviaAlta = new Rodovia("SC108", "Alta");
+	    Rodovia rodoviaBaixa = new Rodovia("BR101", "Baixa");
+
+	    List<Pessoa> pessoas1 = new ArrayList<>();
+	    List<Pessoa> pessoas2 = new ArrayList<>();
+
+	    pessoas1.add(new Pessoa("Condutor", 30, "Masculino", true, false));
+	    pessoas1.add(new Pessoa("Passageiro", 25, "Feminino", false, false));
+
+	    pessoas2.add(new Pessoa("Condutor", 35, "Masculino", true, false));
+	    pessoas2.add(new Pessoa("Passageiro", 28, "Feminino", false, false));
+
+	    List<Veículo> veiculosCaso1 = new ArrayList<>();
+	    List<Veículo> veiculosCaso2 = new ArrayList<>();
+
+	    veiculosCaso1.add(new Veículo(2010, "Carro", pessoas1));
+	    veiculosCaso2.add(new Veículo(2015, "Carro", pessoas2));
+
+	    Acidente acidenteAlta = new Acidente(rodoviaAlta, 1, 4, 10, veiculosCaso1);
+	    Acidente acidenteBaixa = new Acidente(rodoviaBaixa, 2, 2, 8, veiculosCaso2);
+
+	    dentran.cadastrarAcidente(acidenteAlta);
+	    dentran.cadastrarAcidente(acidenteBaixa);
+
+	    ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+	    System.setOut(new PrintStream(outContent));
+
+	    dentran.listaQuantAcidporGrau();
+	    assertTrue(outContent.toString().contains("Alta: 1"));
+	    assertTrue(outContent.toString().contains("Baixa: 1"));
 	}
 	
-	//-----------------INCOMPLETO-----------------------
-	//VOU VER COMO TRANSFORMAR A SAIDA DE VOID PARA STRING
 	//TESTANDO O LISTAR VEICULOS DE CARGA ENVOLVIDO EM ACIDENTE 
 	@Test
-	void listarVeiculosDeCargaEnvolvidosTest() {
+    void listarVeiculosDeCargaEnvolvidosTest() {
 		DepartamentoTransito dentran = new DepartamentoTransito();
-		
-		dentran.cadastrarAcidente(acidenteTest);
-		dentran.cadastrarAcidente(acidenteTest2);
-		
-		dentran.listarVeiculosDeCargaEnvolvidos();
-	}
+        Veículo veiculoDeCarga = new Veículo(2022, "Carga", new ArrayList<>());
+        Acidente acidenteComVeiculoDeCarga = new Acidente(rodoviaTest, 0, 0, 1, List.of(veiculoDeCarga));
+        dentran.cadastrarAcidente(acidenteComVeiculoDeCarga);
+        PrintStream originalOut = System.out;
+        
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        PrintStream printStream = new PrintStream(outContent);
+        System.setOut(printStream);
+        dentran.listarVeiculosDeCargaEnvolvidos();
+        System.setOut(originalOut);
+        String consoleOutput = outContent.toString();
+        assertTrue(consoleOutput.contains("\nLista de veiculos de carga envolvidos em acidentes: " + veiculoDeCarga.toString()));
+    }
 	
 	
 	// --------------INCOMPLETO ------------------------
@@ -157,10 +203,40 @@ class DepartamentoTransitoTest {
 		dentran.cadastrarAcidente(acidenteTest2);
 		
 		dentran.rodoviaComMaisAcidenteDeBicicleta();
+	}	
+	
+	//TESTANDO O LISTAR RODOVIAS COM ACIDENTES FATAIS
+	@Test
+	void listarRodoviasAcidentesFataisTest() {
+		DepartamentoTransito dentran = new DepartamentoTransito();
+		
+		dentran.cadastrarAcidente(acidenteTest);
+		dentran.cadastrarAcidente(acidenteTest2);
+		
+		dentran.rodoviaAcidentesFatais();
 	}
 	
-	
-	
+	//TESTANDO QUANTIDADE DE ACIDENTES COM VEÍCULOS NOVOS
+	@Test
+	void contagemAcidentesComVeiculosNovosTest() {
+		DepartamentoTransito dentran = new DepartamentoTransito();
+		
+		dentran.cadastrarAcidente(acidenteTest);
+		dentran.cadastrarAcidente(acidenteTest2);
+		
+		dentran.contarAcidentesComVeiculosNovos();	
+	}
+
+	//TESTANDO O LISTAR RODOVIAS COM ACIDENTES NO CARNAVAL
+	@Test
+	void listarRodoviasComAcidentesNoCarnavalTest() {
+		DepartamentoTransito dentran = new DepartamentoTransito();
+		
+		dentran.cadastrarAcidente(acidenteTest);
+		dentran.cadastrarAcidente(acidenteTest2);
+		
+		dentran.rodoviasComAcidentesNoCarnaval();	
+	}	
 	
 	//TESTANDO O CONSTRUTOR DE VEÍCULO PREENCHIDO
 	@Test
