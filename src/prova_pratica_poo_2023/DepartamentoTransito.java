@@ -31,7 +31,7 @@ public class DepartamentoTransito {
         acidentes.add(acidente);
     }
 
-    public void listarAcidentes() {
+    public String listarAcidentes() {
     	
     	String acidentesTexto = "";
     	boolean temCondutorEmbriagado = false;
@@ -40,9 +40,8 @@ public class DepartamentoTransito {
             for (Veículo veiculo : acidente.getVeículosEnvolvidos()) {
                 for (Pessoa pessoa : veiculo.getPessoas()) {
                     if (pessoa.isEmbriagado() == true) {
-                        System.out.println("Acidente com condutor embriagado: " + acidente.toString());
-                        temCondutorEmbriagado = true;
-                        
+                    	acidentesTexto = "Acidente com condutor embriagado: " + acidente.toString();
+                        temCondutorEmbriagado = true;          
                         break;
                     }
                 }
@@ -52,7 +51,7 @@ public class DepartamentoTransito {
     	if(temCondutorEmbriagado == false) {
     		acidentesTexto = "Não há acidentes com condutor embreagado";
     	}
-    	 System.out.println(acidentesTexto);
+    	 return acidentesTexto;
     }
 
     public void listaQuantAcidporGrau() {
@@ -81,8 +80,8 @@ public class DepartamentoTransito {
     public void listarVeiculosDeCargaEnvolvidos() {
         for (Acidente acidente : acidentes) {
             for (Veículo veiculo : acidente.getVeículosEnvolvidos()) {
-                if ("Caminhao".equals(veiculo.getTipo())) {
-                    System.out.println("\nLista de Veiculo de Carga Envolvido: " + veiculo.toString());
+                if ("Carga".equals(veiculo.getTipo())) {
+                    System.out.println("\nLista de veiculos de carga envolvidos em acidentes: " + veiculo.toString());
                 }
             }
         }
@@ -96,7 +95,7 @@ public class DepartamentoTransito {
             for (Acidente acidente : acidentes) {
                 if (rodovia.equals(acidente.getRodovia())) {
                     for (Veículo veiculo : acidente.getVeículosEnvolvidos()) {
-                        if ("Bicicleta".equals(veiculo.getTipo())) {
+                        if ("Bicicleta".equalsIgnoreCase(veiculo.getTipo())) {
                             countAcidentesBicicleta++;
                         }
                     }
