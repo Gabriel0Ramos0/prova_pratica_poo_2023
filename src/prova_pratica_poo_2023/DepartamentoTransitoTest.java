@@ -12,32 +12,52 @@ class DepartamentoTransitoTest {
 	
 	List<Pessoa> pessoas1 = new ArrayList<>();
 	List<Pessoa> pessoas2 = new ArrayList<>();
+	List<Pessoa> pessoas3 = new ArrayList<>();
+	List<Pessoa> pessoas4 = new ArrayList<>();
 	List<Veículo> veiculosCaso1 = new ArrayList<>();
+	List<Veículo> veiculosCaso2 = new ArrayList<>();
 	Rodovia rodoviaTest;
+	Rodovia rodoviaTest2;
 	Acidente acidenteTest;
+	Acidente acidenteTest2;
 
 	
 	@BeforeEach
 	void executarPrimeiro() {
 		
+		//PRIMEIRO ACIDENTE, NINGUEM EMBRIAGADO
 		rodoviaTest = new Rodovia("SC108", "Alta");
+		rodoviaTest2 = new Rodovia("BR101", "Baixa");
 		
-		pessoas1.add(new Pessoa("Joao", 30, "Masculino", true, false));
-		pessoas1.add(new Pessoa("Maria", 25, "Feminino", false, false));
-		
-        pessoas2.add(new Pessoa("Pedro", 35, "Masculino", true, false));
-        pessoas2.add(new Pessoa("Ana", 28, "Feminino", false, false));
-        pessoas2.add(new Pessoa("Lucas", 22, "Masculino", false, false));
+		pessoas1.add(new Pessoa("Pessoa1Test1", 30, "Masculino", true, false));
+		pessoas1.add(new Pessoa("Pessoa1.1Test1", 25, "Feminino", false, false));
+        pessoas2.add(new Pessoa("Pessoa2Test1", 35, "Masculino", true, false));
+        pessoas2.add(new Pessoa("Pessoa2.1Test1", 28, "Feminino", false, false));
+        pessoas2.add(new Pessoa("Pessoa2.2Test1", 22, "Masculino", false, false));
         
-        veiculosCaso1.add(new Veículo(2010, "Carro", pessoas1));
-        veiculosCaso1.add(new Veículo(2020, "Moto", pessoas2));
+        veiculosCaso1.add(new Veículo(2010, "Bicicleta", pessoas1));
+        veiculosCaso1.add(new Veículo(2020, "Bicicleta", pessoas2));
         
         acidenteTest = new Acidente(rodoviaTest, 1, 4, 10, veiculosCaso1);
+        
+        //SEGUNDO ACIDENTE, UM MOTORISTA EMBRIAGADO
+        pessoas3.add(new Pessoa("Pessoa3Test2", 30, "Masculino", true, true));
+        pessoas3.add(new Pessoa("Pessoa3.1Test2", 30, "Masculino", false, false)); 
+        pessoas4.add(new Pessoa("Pessoa4Test2", 30, "Masculino", true, false)); 
+        pessoas4.add(new Pessoa("Pessoa4.1Test2", 30, "Masculino", false, false)); 
+        
+        veiculosCaso2.add(new Veículo(2015, "Bicicleta", pessoas3));
+        veiculosCaso2.add(new Veículo(2019, "Bicicleta", pessoas4));
+        
+        acidenteTest2 = new Acidente(rodoviaTest2, 2, 2, 8, veiculosCaso2);
+        
+        
+        
 	}
 	
 	//TESTANDO O CADASTRO DE RODOVIAS PELA CLASSE DEPARTAMENTOTRANSITO INSTANCIANDO A RODOVIA
 	@Test
-	void cadastroRodoviasNaoInstanciadas() {
+	void cadastroRodoviasNaoInstanciadasTest() {
 		DepartamentoTransito dentran = new DepartamentoTransito();
 		
 		dentran.cadastrarRodovia("SC108", "Alto");
@@ -46,7 +66,7 @@ class DepartamentoTransitoTest {
 	
 	//TESTANDO O CADASTRO DE RODOVIAS PELA CLASSE DEPARTAMENTOTRANSITO RECEBENDO A RODOVIA JÁ INSTANCIADA
 		@Test
-		void cadastroRodoviasInstanciadas() {
+		void cadastroRodoviasInstanciadasTest() {
 			DepartamentoTransito dentran = new DepartamentoTransito();
 			
 			dentran.cadastrarRodovia(rodoviaTest);
@@ -55,7 +75,7 @@ class DepartamentoTransitoTest {
 	
 	//TESTANDO O CADASTRO DE ACIDENTES PELA CLASSE DEPARTAMENTOTRANSITO INSTANCIANDO O ACIDENTE
 	@Test
-	void cadastroAcidentesNaoInstanciadas() {
+	void cadastroAcidentesNaoInstanciadasTest() {
 		DepartamentoTransito dentran = new DepartamentoTransito();
 		
 		dentran.cadastrarAcidente(rodoviaTest, 1, 4, 10, veiculosCaso1);
@@ -67,7 +87,7 @@ class DepartamentoTransitoTest {
 	
 	//TESTANDO O CADASTRO DE ACIDENTES PELA CLASSE DEPARTAMENTOTRANSITO RECEBENDO O ACIDENTE JÁ INSTANCIADO
 	@Test
-	void cadastroAcidentesInstanciadas() {
+	void cadastroAcidentesInstanciadasTest() {
 			DepartamentoTransito dentran = new DepartamentoTransito();
 			
 			dentran.cadastrarAcidente(acidenteTest);
@@ -77,23 +97,79 @@ class DepartamentoTransitoTest {
 			assertEquals(2, dentran.acidentes.get(0).getVeículosEnvolvidos().size());
 		}
 
-	//TESTANDO LISTAGEM DE ACIDENTES SEM CONDUTOR EMBRIAGADO -- NÃO COMPLETO -------------------------------
+	//TESTANDO LISTAGEM DE ACIDENTES SEM CONDUTOR EMBRIAGADO
 	@Test
-	void listarAcidentesSemCondutorEmbriagado() {
+	void listarAcidentesSemCondutorEmbriagadoTest() {
 		DepartamentoTransito dentran = new DepartamentoTransito();
 		
 		dentran.cadastrarAcidente(acidenteTest);
-		dentran.listarAcidentes();	
+		assertEquals("Não há acidentes com condutor embreagado", dentran.listarAcidentes());	
 	}
+	
+	//-----------------INCOMPLETO-----------------------
+	//VOU VER COMO TRANSFORMAR A SAIDA DE VOID PARA STRING
+	//TESTANDO LISTAGEM DE ACIDENTES COM CONDUTOR EMBRIAGADO
+	@Test
+	void listarAcidentesComCondutorEmbriagadoTest() {
+		DepartamentoTransito dentran = new DepartamentoTransito();
+			
+		dentran.cadastrarAcidente(acidenteTest);
+		dentran.cadastrarAcidente(acidenteTest2);
+		dentran.listarAcidentes();		
+	}
+	
+	//-----------------INCOMPLETO-----------------------
+	//VOU VER COMO TRANSFORMAR A SAIDA DE VOID PARA STRING
+	//TESTANDO O LISTAR QUANTIDADE DE ACIDENTES POR GRAU DE PERICULOSIDADE
+	@Test
+	void listarQntAcidentesGrauPericulosidadeTest(){
+		DepartamentoTransito dentran = new DepartamentoTransito();
 		
+		dentran.cadastrarAcidente(acidenteTest);
+		dentran.cadastrarAcidente(acidenteTest2);
+		
+		//dentran.listaQuantAcidporGrau();
+	}
+	
+	//-----------------INCOMPLETO-----------------------
+	//VOU VER COMO TRANSFORMAR A SAIDA DE VOID PARA STRING
+	//TESTANDO O LISTAR VEICULOS DE CARGA ENVOLVIDO EM ACIDENTE 
+	@Test
+	void listarVeiculosDeCargaEnvolvidosTest() {
+		DepartamentoTransito dentran = new DepartamentoTransito();
+		
+		dentran.cadastrarAcidente(acidenteTest);
+		dentran.cadastrarAcidente(acidenteTest2);
+		
+		dentran.listarVeiculosDeCargaEnvolvidos();
+	}
+	
+	
+	// --------------INCOMPLETO ------------------------
+	//TESTANDO O LISTAR RODOVIAS COM MAIS BICICLETAS ENVOLVIDAS EM ACIDENTE
+	//VOU VER COMO TRANSFORMAR A SAIDA DE VOID PARA STRING
+	//NÃO ESTA MOSTRANDO OS ACIDENTES DE BICICLETA
+	@Test
+	void listarRodoviasMaisAcidentesBicicletaTest() {
+		DepartamentoTransito dentran = new DepartamentoTransito();
+		
+		dentran.cadastrarAcidente(acidenteTest);
+		dentran.cadastrarAcidente(acidenteTest2);
+		
+		dentran.rodoviaComMaisAcidenteDeBicicleta();
+	}
+	
+	
+	
+	
 	//TESTANDO O CONSTRUTOR DE VEÍCULO PREENCHIDO
 	@Test
 	void construtorVeículoPreenchidoTest() {
 		Veículo veiculoConstrutorPreenchido = new Veículo(2020, "Carro", pessoas1);
 		assertEquals(2020, veiculoConstrutorPreenchido.getAno());
 		assertEquals("Carro", veiculoConstrutorPreenchido.getTipo());
-		assertEquals("Joao", veiculoConstrutorPreenchido.getPessoas().get(0).getNome());
-		assertEquals("Maria", veiculoConstrutorPreenchido.getPessoas().get(1).getNome());
+		assertEquals("Pessoa1Test1", veiculoConstrutorPreenchido.getPessoas().get(0).getNome());
+		assertEquals("Pessoa1.1Test1", veiculoConstrutorPreenchido.getPessoas().get(1).getNome());
 	}
 	
 	//TESTANDO O CONSTRUTOR DE VEÍCULO SEM VARIÁVEIS
@@ -105,7 +181,6 @@ class DepartamentoTransitoTest {
 		assertEquals(null, veiculoConstrutorVazio.getPessoas());
 	}
 
-	
 
 	
 	//TESTANDO O CONSTRUTOR DE RODOVIA PREENCHIDO
@@ -152,7 +227,7 @@ class DepartamentoTransitoTest {
 	
 	//TESTANDO O CONSTRUTOR DE ACIDENTE PREENCHIDO
 	@Test
-	void construtorRodoviaPreenchido() {
+	void construtorAcidentePreenchidoTest() {
 		Rodovia rodovia = new Rodovia("SC108", "Alta");
 		Acidente acidenteConstrutorPreenchido = new Acidente(rodovia, 2, 4, 10, veiculosCaso1);
 		assertEquals("SC108", acidenteConstrutorPreenchido.getRodovia().getSigla());
@@ -164,7 +239,7 @@ class DepartamentoTransitoTest {
 	
 	//TESTANDO O CONSTRUTOR DE ACIDENTE VAZIO
 	@Test
-	void construtorRodoviaVazio() {
+	void construtorAcidenteVazioTest() {
 		Acidente acidenteConstrutorPreenchido = new Acidente();
 		assertEquals(null, acidenteConstrutorPreenchido.getRodovia());
 		assertEquals(0, acidenteConstrutorPreenchido.getVitimasFatais());

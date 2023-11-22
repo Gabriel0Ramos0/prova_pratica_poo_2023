@@ -22,7 +22,7 @@ public class Veículo {
 
 	@Override
 	public String toString() {
-        StringBuilder veiculoString = new StringBuilder(getTipo() + ", ano: " + getAno() + "\nCondutor: ");
+        StringBuilder veiculoString = new StringBuilder("\nTipo de véiculo: " + getTipo() + ", ano: " + getAno() + "\nCondutor: ");
 
         for (int i = 0; i < pessoas.size(); i++) {
             veiculoString.append(pessoas.get(i).toString());
