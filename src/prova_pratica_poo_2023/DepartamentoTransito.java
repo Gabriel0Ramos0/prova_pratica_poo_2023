@@ -141,7 +141,7 @@ public class DepartamentoTransito {
     	}
     	
     	if(maxAcidentesFatais != 0) {
-    		System.out.println("Rodovia com mais acidentes fatais: " + rodoviaMaisAcidentesFatais + "\nQunatidade de vítimas: " + maxAcidentesFatais);
+    		System.out.println("Rodovia com mais acidentes fatais: " + rodoviaMaisAcidentesFatais);
     	}
     	
     }

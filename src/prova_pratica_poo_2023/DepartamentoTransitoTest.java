@@ -1,6 +1,7 @@
 package prova_pratica_poo_2023;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
@@ -214,59 +215,33 @@ class DepartamentoTransitoTest {
 	@Test
 	void listarRodoviasMaisAcidentesBicicletaSemAcidentesTest() {
 		DepartamentoTransito dentran = new DepartamentoTransito();
-		
 		dentran.cadastrarAcidente(acidenteTest);
 		dentran.cadastrarAcidente(acidenteTest2);
 		
-		
 		PrintStream saidaOriginalConsole = System.out;
-		
-		
 		ByteArrayOutputStream conteudoConsole = new ByteArrayOutputStream();
-		
-		
+
 		System.setOut(new PrintStream(conteudoConsole));
-		
-		
 		dentran.rodoviaComMaisAcidenteDeBicicleta();
-		
-		
 		String novaSaidaConsoleEmString = conteudoConsole.toString();
-		
-		
 		assertTrue(novaSaidaConsoleEmString.contains("Sem registros de acidente com bicicletas"));
-		
-		
 		System.setOut(saidaOriginalConsole);
 	}	
 	
 	//TESTANDO O LISTAR RODOVIAS COM MAIS BICICLETAS ENVOLVIDAS EM ACIDENTE COM ACIDENTES REGISTRADOS
 	@Test
 	void listarRodoviasMaisAcidentesBicicletaComAcidentesTest() {
-		
 		DepartamentoTransito dentran = new DepartamentoTransito();
 		
 		dentran.cadastrarAcidente(acidenteTest);
 		dentran.cadastrarAcidente(acidenteTest3);
-		
-		
 		PrintStream saidaOriginalConsole = System.out;
-				
-
 		ByteArrayOutputStream conteudoConsole = new ByteArrayOutputStream();
-		
-
 		System.setOut(new PrintStream(conteudoConsole));
-				
 	
 		dentran.rodoviaComMaisAcidenteDeBicicleta();
-				
-
 		String novaSaidaConsoleEmString = conteudoConsole.toString();
-		
-		
 		assertTrue(novaSaidaConsoleEmString.contains("Rodovia com mais acidentes de bicicleta: " + "AM52"));
-				
 		System.setOut(saidaOriginalConsole);
 	}
 	
@@ -284,15 +259,32 @@ class DepartamentoTransitoTest {
 	
 	//TESTANDO QUANTIDADE DE ACIDENTES COM VEÍCULOS NOVOS
 	@Test
-	void contagemAcidentesComVeiculosNovosTest() {
-		DepartamentoTransito dentran = new DepartamentoTransito();
-		
-		dentran.cadastrarAcidente(acidenteTest);
-		dentran.cadastrarAcidente(acidenteTest2);
-		
-		//dentran.contarAcidentesComVeiculosNovos();	
-	}
+    void contagemAcidentesComVeiculosNovosTest() {
+        DepartamentoTransito dentran = new DepartamentoTransito();
 
+        Rodovia rodovia = new Rodovia("SC108", "Alta");
+
+        List<Pessoa> pessoas = new ArrayList<>();
+        List<Veículo> veiculos = new ArrayList<>();
+
+        pessoas.add(new Pessoa("João", 25, "Masculino", true, false));
+        veiculos.add(new Veículo(2012, "Carro", pessoas));
+        Acidente acidente = new Acidente(rodovia, 1, 2, 11, veiculos);
+
+        dentran.cadastrarAcidente(acidente);
+
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        PrintStream originalOut = System.out;
+        System.setOut(new PrintStream(outContent));
+
+        dentran.contarAcidentesComVeiculosNovos();
+
+        String consoleOutput = outContent.toString().trim();
+        assertEquals("Quantidade de Acidentes com Veiculos Novos (a partir de 2013): 0", consoleOutput);
+
+        System.setOut(originalOut);
+    }
+	
 	//TESTANDO O LISTAR RODOVIAS COM ACIDENTES NO CARNAVAL
 	@Test
 	void listarRodoviasComAcidentesNoCarnavalTest() {
@@ -300,7 +292,7 @@ class DepartamentoTransitoTest {
 		
 		dentran.cadastrarAcidente(acidenteTest);
 		dentran.cadastrarAcidente(acidenteTest2);
-		
+	
 		dentran.rodoviasComAcidentesNoCarnaval();	
 	}	
 	
@@ -323,8 +315,6 @@ class DepartamentoTransitoTest {
 		assertEquals(null, veiculoConstrutorVazio.getPessoas());
 	}
 
-
-	
 	//TESTANDO O CONSTRUTOR DE RODOVIA PREENCHIDO
 	@Test
 	void construtorRodoviaPreenchidoTest() {
@@ -336,13 +326,11 @@ class DepartamentoTransitoTest {
 	//TESTANDO O CONSTRUTOR DE RODOVIA VAZIO
 	@Test
 	void construtorRodoviaVazioTest() {
-			Rodovia rodoviaConstrutorVazio = new Rodovia();
-			assertEquals("", rodoviaConstrutorVazio.getSigla());
-			assertEquals("", rodoviaConstrutorVazio.getGrau());
-		}
+		Rodovia rodoviaConstrutorVazio = new Rodovia();
+		assertEquals("", rodoviaConstrutorVazio.getSigla());
+		assertEquals("", rodoviaConstrutorVazio.getGrau());
+	}
 
-	
-	
 	//TESTANDO O CONSTRUTOR DE PESSOA PREENCHIDO
 	@Test
 	void construtorPessoaPreenchidoTest() {
@@ -354,6 +342,61 @@ class DepartamentoTransitoTest {
 		assertEquals(false, pessoaConstrutorPreenchido.isEmbriagado());
 	}
 	
+	@Test
+	void testarGetSetPessoa() {
+	    Pessoa pessoa = new Pessoa();
+	    pessoa.setNome("Wesley");
+	    pessoa.setIdade(21);
+	    pessoa.setSexo("Masculino");
+	    pessoa.setCondutor(true);
+	    pessoa.setEmbriagado(false);
+	    
+	    assertEquals("Wesley", pessoa.getNome());
+	    assertEquals(21, pessoa.getIdade());
+	    assertEquals("Masculino", pessoa.getSexo());
+	    assertTrue(pessoa.isCondutor());
+	    assertFalse(pessoa.isEmbriagado());
+	}
+	
+	@Test
+    void testarSetsAcidente() {
+        Rodovia rodovia = new Rodovia("SC108", "Alta");
+        Acidente acidente = new Acidente();
+
+        acidente.setRodovia(rodovia);
+        assertEquals(rodovia, acidente.getRodovia());
+        acidente.setVitimasFatais(2);
+        assertEquals(2, acidente.getVitimasFatais());
+        acidente.setFeridos(3);
+        assertEquals(3, acidente.getFeridos());
+        acidente.setMes(5);
+        assertEquals(5, acidente.getMes());
+
+        List<Veículo> veiculosEnvolvidos = new ArrayList<>();
+        veiculosEnvolvidos.add(new Veículo(2020, "Carro", new ArrayList<>()));
+        acidente.setVeículosEnvolvidos(veiculosEnvolvidos);
+        assertEquals(veiculosEnvolvidos, acidente.getVeículosEnvolvidos());
+
+        acidente.setVeículosEnvolvidos(null);
+    }
+	
+	@Test
+    void testarSetsRodovia() {
+        Rodovia rodovia = new Rodovia();
+
+        rodovia.setSigla("SC101");
+        assertEquals("SC101", rodovia.getSigla());
+        assertTrue(rodovia.setGrau("Alto"));
+        assertEquals("Alto", rodovia.getGrau());
+        assertFalse(rodovia.setGrau("Muito Alto"));
+        assertEquals("Alto", rodovia.getGrau());
+        assertTrue(rodovia.setGrau("Medio"));
+        assertEquals("Medio", rodovia.getGrau());
+        assertTrue(rodovia.setGrau("Baixo"));
+        assertEquals("Baixo", rodovia.getGrau());
+    }
+
+	
 	//TESTANDO O CONSTRUTOR DE PESSOA VAZIO
 	@Test
 	void construtorPessoaVazioTest() {
@@ -364,8 +407,6 @@ class DepartamentoTransitoTest {
 		assertEquals(false, pessoaConstrutorVazio.isCondutor());
 		assertEquals(false, pessoaConstrutorVazio.isEmbriagado());
 	}
-	
-	
 	
 	//TESTANDO O CONSTRUTOR DE ACIDENTE PREENCHIDO
 	@Test
@@ -390,3 +431,4 @@ class DepartamentoTransitoTest {
 		assertEquals(null, acidenteConstrutorPreenchido.getVeículosEnvolvidos());
 	}
 }
+	
