@@ -24,6 +24,7 @@ class DepartamentoTransitoTest {
 	List<Veículo> veiculosCaso3 = new ArrayList<>();
 	Rodovia rodoviaTest;
 	Rodovia rodoviaTest2;
+	Rodovia rodoviaTest3;
 	Acidente acidenteTest;
 	Acidente acidenteTest2;
 	Acidente acidenteTest3;
@@ -35,6 +36,7 @@ class DepartamentoTransitoTest {
 		//PRIMEIRO ACIDENTE, NINGUEM EMBRIAGADO
 		rodoviaTest = new Rodovia("SC108", "Alta");
 		rodoviaTest2 = new Rodovia("BR101", "Baixa");
+		rodoviaTest3 = new Rodovia("AM52", "Media");
 		
 		pessoas1.add(new Pessoa("Pessoa1Test1", 30, "Masculino", true, false));
 		pessoas1.add(new Pessoa("Pessoa1.1Test1", 25, "Feminino", false, false));
@@ -45,7 +47,7 @@ class DepartamentoTransitoTest {
         veiculosCaso1.add(new Veículo(2010, "Carro", pessoas1));
         veiculosCaso1.add(new Veículo(2020, "Carga", pessoas2));
         
-        acidenteTest = new Acidente(rodoviaTest, 1, 4, 10, veiculosCaso1);
+        acidenteTest = new Acidente(rodoviaTest, 1, 4, 2, veiculosCaso1);
         
         //SEGUNDO ACIDENTE, UM MOTORISTA EMBRIAGADO
         pessoas3.add(new Pessoa("Pessoa3Test2", 30, "Masculino", true, true));
@@ -56,7 +58,7 @@ class DepartamentoTransitoTest {
         veiculosCaso2.add(new Veículo(2015, "Carga", pessoas3));
         veiculosCaso2.add(new Veículo(2019, "Carro", pessoas4));
         
-        acidenteTest2 = new Acidente(rodoviaTest2, 2, 2, 8, veiculosCaso2);
+        acidenteTest2 = new Acidente(rodoviaTest2, 5, 2, 8, veiculosCaso2);
         
         
         //TERCEIRO ACIDENTE, INCLUSÃO DE BICICLETAS
@@ -69,7 +71,7 @@ class DepartamentoTransitoTest {
         veiculosCaso3.add(new Veículo(2000, "Bicicleta", pessoas5));
         veiculosCaso3.add(new Veículo(2001, "Carro", pessoas6));
         
-        acidenteTest3 = new Acidente(rodoviaTest2, 1, 1, 5, veiculosCaso3);
+        acidenteTest3 = new Acidente(rodoviaTest3, 5, 1, 5, veiculosCaso3);
         
 	}
 	
@@ -216,25 +218,25 @@ class DepartamentoTransitoTest {
 		dentran.cadastrarAcidente(acidenteTest);
 		dentran.cadastrarAcidente(acidenteTest2);
 		
-		//SALVA A REFECENCIA DE SAIDA ORIGNAL DO CONSOLE
+		
 		PrintStream saidaOriginalConsole = System.out;
 		
-		//CRIA UM BYTEARRAY QUE IRÁ CAPTURAR O QUE SAIR NO CONSOLE
+		
 		ByteArrayOutputStream conteudoConsole = new ByteArrayOutputStream();
 		
-		//MUDA A SAÍDA DO CONSOLE DE ORIGINAL PARA O BYTEARRAY
+		
 		System.setOut(new PrintStream(conteudoConsole));
 		
-		//EXECUTA O MÉTODO QUE IRÁ PRINTAR NO CONSOLE
+		
 		dentran.rodoviaComMaisAcidenteDeBicicleta();
 		
-		//TRANSFORMAR A MENSAGEM PRINTADA NO CONSOLE EM STRING
+		
 		String novaSaidaConsoleEmString = conteudoConsole.toString();
 		
-		//VERIFICA SE A STRING FOI IMPRESSA CORRETAMENTE
+		
 		assertTrue(novaSaidaConsoleEmString.contains("Sem registros de acidente com bicicletas"));
 		
-		//RETORNA O CONSOLE AS CONFIGURAÇÕES ORIGINAIS
+		
 		System.setOut(saidaOriginalConsole);
 	}	
 	
@@ -247,25 +249,24 @@ class DepartamentoTransitoTest {
 		dentran.cadastrarAcidente(acidenteTest);
 		dentran.cadastrarAcidente(acidenteTest3);
 		
-		//SALVA A REFECENCIA DE SAIDA ORIGNAL DO CONSOLE
+		
 		PrintStream saidaOriginalConsole = System.out;
 				
-		//CRIA UM BYTEARRAY QUE IRÁ CAPTURAR O QUE SAIR NO CONSOLE
+
 		ByteArrayOutputStream conteudoConsole = new ByteArrayOutputStream();
 		
-		//MUDA A SAÍDA DO CONSOLE DE ORIGINAL PARA O BYTEARRAY
+
 		System.setOut(new PrintStream(conteudoConsole));
 				
-		//EXECUTA O MÉTODO QUE IRÁ PRINTAR NO CONSOLE
+	
 		dentran.rodoviaComMaisAcidenteDeBicicleta();
 				
-		//TRANSFORMAR A MENSAGEM PRINTADA NO CONSOLE EM STRING
+
 		String novaSaidaConsoleEmString = conteudoConsole.toString();
 		
-		//VERIFICA SE A STRING FOI IMPRESSA CORRETAMENTE
-		assertTrue(novaSaidaConsoleEmString.contains("Rodovia com mais acidentes de bicicleta: " + "BR101"));
+		
+		assertTrue(novaSaidaConsoleEmString.contains("Rodovia com mais acidentes de bicicleta: " + "AM52"));
 				
-		//RETORNA O CONSOLE AS CONFIGURAÇÕES ORIGINAIS
 		System.setOut(saidaOriginalConsole);
 	}
 	
@@ -276,8 +277,9 @@ class DepartamentoTransitoTest {
 		
 		dentran.cadastrarAcidente(acidenteTest);
 		dentran.cadastrarAcidente(acidenteTest2);
+		dentran.cadastrarAcidente(acidenteTest3);
 		
-		//dentran.rodoviaAcidentesFatais();
+		dentran.rodoviaAcidentesFatais();
 	}
 	
 	//TESTANDO QUANTIDADE DE ACIDENTES COM VEÍCULOS NOVOS
@@ -288,7 +290,7 @@ class DepartamentoTransitoTest {
 		dentran.cadastrarAcidente(acidenteTest);
 		dentran.cadastrarAcidente(acidenteTest2);
 		
-		dentran.contarAcidentesComVeiculosNovos();	
+		//dentran.contarAcidentesComVeiculosNovos();	
 	}
 
 	//TESTANDO O LISTAR RODOVIAS COM ACIDENTES NO CARNAVAL

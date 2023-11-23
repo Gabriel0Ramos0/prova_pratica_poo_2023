@@ -120,26 +120,32 @@ public class DepartamentoTransito {
     }
     
     public void rodoviaAcidentesFatais() {
-        Rodovia rodoviaComMaisAcidentesFatais = null;
-        int maxAcidentesFatais = 0;
-        for (Rodovia rodovia : rodovias) {
-            int countAcidentesFatais = 0;
-            for (Acidente acidente : acidentes) {
-                if (rodovia.equals(acidente.getRodovia())) {
-                    countAcidentesFatais += acidente.getVitimasFatais();
-                }
-            }
-            if (countAcidentesFatais > maxAcidentesFatais) {
-                maxAcidentesFatais = countAcidentesFatais;
-                rodoviaComMaisAcidentesFatais = rodovia;
-            }
-        }
-        if (rodoviaComMaisAcidentesFatais != null) {
-            System.out.println("Rodovia com Mais Acidentes com Vitimas Fatais" + rodoviaComMaisAcidentesFatais.toString());
-        } else {
-            System.out.println("Não houve acidentes com vítimas fatais registrados.");
-        }
+    	
+    	String rodoviaMaisAcidentesFatais = "";
+    	int maxAcidentesFatais = 0;
+    	int contadorVitimas = 0;
+    	
+    	
+    	for(Acidente acidente : acidentes) {
+    		if(acidente.getVitimasFatais() > 0) {
+    			contadorVitimas = acidente.getVitimasFatais();
+    		}
+    		
+    		if(contadorVitimas > maxAcidentesFatais) {
+    			maxAcidentesFatais = contadorVitimas;
+    			rodoviaMaisAcidentesFatais = acidente.getRodovia().getSigla();
+    		} else if(contadorVitimas == maxAcidentesFatais) {
+    			rodoviaMaisAcidentesFatais += " - " + acidente.getRodovia().getSigla();
+    		}
+    		
+    	}
+    	
+    	if(maxAcidentesFatais != 0) {
+    		System.out.println("Rodovia com mais acidentes fatais: " + rodoviaMaisAcidentesFatais + "\nQunatidade de vítimas: " + maxAcidentesFatais);
+    	}
+    	
     }
+    
     
     public void contarAcidentesComVeiculosNovos() {
         int countAcidentesVeiculosNovos = 0;
